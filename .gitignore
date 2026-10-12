@@ -1,0 +1,76 @@
+# ==========================================
+# Dependencias
+# ==========================================
+node_modules/
+
+# ==========================================
+# Build outputs
+# ==========================================
+# Frontend (Vite)
+dist/
+dist-ssr/
+*.tsbuildinfo
+
+# Backend (Go)
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+backend/bin/
+backend/tmp/
+
+# ==========================================
+# Variables de entorno (secretos)
+# ==========================================
+.env
+.env.*
+*.local
+# El ejemplo SÍ se sube: documenta qué variables necesita el proyecto
+!.env.example
+
+# ==========================================
+# Logs y cobertura de tests
+# ==========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+coverage/
+*.coverprofile
+
+# ==========================================
+# Editores / IDE
+# ==========================================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ==========================================
+# Sistema operativo
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==========================================
+# Archivos internos del sandbox de v0
+# ==========================================
+__v0_runtime_loader.js
+__v0_devtools.tsx
+__v0_jsx-dev-runtime.ts
+.snowflake/
+.design-cache/
+.v0-trash/
+.vercel/
+.next/
