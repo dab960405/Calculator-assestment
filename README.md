@@ -7,8 +7,17 @@ Full-stack web calculator:
 
 Operations: `add`, `subtract`, `multiply`, `divide`, `power`, `sqrt` and `percentage` (`a` percent of `b`, i.e. `a * b / 100`).
 
+## Live demo
+
+**https://calculator-assestment.onrender.com/**
+
+Deployed on [Render](https://render.com) as a single container built from the `Dockerfile` in this repo (Go server + static React build on the same origin).
+
+> **Note: cold start.** The service runs on a free Render instance, which is put to sleep after a period of inactivity. The first request after that can take **30-60 seconds** to wake it up. During that time the page may load slowly, or the first calculation may show the "server took too long" message (the client timeout is 8 s). Wait a few seconds, reload and try again; once awake, it responds normally.
+
 ## Contents
 
+- [Live demo](#live-demo)
 - [Architecture](#architecture)
 - [Requirements](#requirements)
 - [How to run](#how-to-run)
@@ -327,14 +336,17 @@ The `Dockerfile` has three stages:
 
 `.dockerignore` leaves out `node_modules`, `dist`, coverage, `.git` and any `.env*` (except `frontend/.env.example`), so the build context stays small and no secrets leak in.
 
-**Verification status:** the environment where this delivery was prepared **has no Docker** (nor Podman/Buildah), so **the image was not built or run**. What was verified:
+**Verification status:**
 
+- **Deployed and running on Render.** The image built from this `Dockerfile` was deployed to Render and runs without errors: https://calculator-assestment.onrender.com/ (see [Live demo](#live-demo), including the cold-start note for the free tier).
 - `hadolint` on the `Dockerfile`: no warnings.
 - `docker-compose.yml` parses as valid YAML.
 - Each stage, reproduced by hand on a clean copy of the context (only what `.dockerignore` allows): `npm ci && npm run build` succeeds; `go build` with `CGO_ENABLED=0` succeeds for `linux/amd64` and `linux/arm64`.
 - The static binary, started with the same variables as the image (`PORT`, `STATIC_DIR`), answered every example on this page, served `index.html`, the SPA fallback and the assets, and shut down gracefully on `SIGTERM`.
 
-The image declares no `HEALTHCHECK`: distroless ships neither `curl` nor `wget`. Use `GET /healthz` from the orchestrator (liveness/readiness in Kubernetes, the load balancer's health check).
+**Render settings:** service type *Web Service* with runtime *Docker* (uses the root `Dockerfile`). Render injects `PORT`, which the server reads. Set the *Health Check Path* to `/healthz`.
+
+The image declares no `HEALTHCHECK`: distroless ships neither `curl` nor `wget`. Use `GET /healthz` from the orchestrator (Render's Health Check Path, liveness/readiness in Kubernetes, the load balancer's health check).
 
 ## Testing & Coverage
 
