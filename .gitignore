@@ -1,76 +1,47 @@
-# ==========================================
-# Dependencias
-# ==========================================
+# ── Dependencias ─────────────────────────────────────────
 node_modules/
+**/node_modules/
 
-# ==========================================
-# Build outputs
-# ==========================================
-# Frontend (Vite)
+# ── Build del frontend ───────────────────────────────────
+frontend/dist/
 dist/
-dist-ssr/
 *.tsbuildinfo
 
-# Backend (Go)
+# ── Build del backend (Go) ───────────────────────────────
+backend/bin/
+backend/server
+backend/calculator
 *.exe
-*.exe~
-*.dll
-*.so
-*.dylib
 *.test
 *.out
-backend/bin/
-backend/tmp/
 
-# ==========================================
-# Variables de entorno (secretos)
-# ==========================================
+# ── Cobertura (artefactos pesados; se regeneran) ─────────
+backend/coverage.out
+backend/coverage.html
+frontend/coverage/
+# Se conservan versionados los resúmenes en texto:
+#   coverage/backend.txt
+#   coverage/frontend.txt
+
+# ── Variables de entorno / secretos ──────────────────────
 .env
 .env.*
-*.local
-# El ejemplo SÍ se sube: documenta qué variables necesita el proyecto
+**/.env
+**/.env.*
 !.env.example
+!**/.env.example
 
-# ==========================================
-# Logs y cobertura de tests
-# ==========================================
-logs/
+# ── Logs ─────────────────────────────────────────────────
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
-coverage/
-*.coverprofile
 
-# ==========================================
-# Editores / IDE
-# ==========================================
-.vscode/*
-!.vscode/extensions.json
-!.vscode/launch.json
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# ==========================================
-# Sistema operativo
-# ==========================================
+# ── Editor / sistema operativo ───────────────────────────
 .DS_Store
 Thumbs.db
-desktop.ini
+.vscode/
+.idea/
+*.swp
 
-# ==========================================
-# Archivos internos del sandbox de v0
-# ==========================================
-__v0_runtime_loader.js
-__v0_devtools.tsx
-__v0_jsx-dev-runtime.ts
-.snowflake/
-.design-cache/
-.v0-trash/
-.vercel/
-.next/
+# ── Docker local ─────────────────────────────────────────
+docker-compose.override.yml

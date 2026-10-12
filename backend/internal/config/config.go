@@ -7,6 +7,7 @@ import "os"
 type Config struct {
 	Port       string // env PORT, default "8080"
 	CORSOrigin string // env CORS_ALLOWED_ORIGIN, default "http://localhost:5173"
+	StaticDir  string // env STATIC_DIR, default "" (API only); when set, the built frontend is served from it
 }
 
 // Load reads the configuration from the environment, applying defaults.
@@ -14,6 +15,7 @@ func Load() Config {
 	return Config{
 		Port:       getEnv("PORT", "8080"),
 		CORSOrigin: getEnv("CORS_ALLOWED_ORIGIN", "http://localhost:5173"),
+		StaticDir:  os.Getenv("STATIC_DIR"),
 	}
 }
 

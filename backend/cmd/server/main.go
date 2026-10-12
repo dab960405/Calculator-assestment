@@ -53,10 +53,14 @@ func run(logger *slog.Logger) error {
 }
 
 func newServer(cfg config.Config, logger *slog.Logger) *http.Server {
-	handler := api.NewHandler(calculator.Calculate, logger)
+	var handler http.Handler = api.NewRouter(api.NewHandler(calculator.Calculate, logger), logger, cfg.CORSOrigin)
+	if cfg.StaticDir != "" {
+		logger.Info("serving static frontend", "dir", cfg.StaticDir)
+		handler = api.WithStatic(handler, cfg.StaticDir)
+	}
 	return &http.Server{
 		Addr:              net.JoinHostPort("", cfg.Port),
-		Handler:           api.NewRouter(handler, logger, cfg.CORSOrigin),
+		Handler:           handler,
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       10 * time.Second,
 		WriteTimeout:      10 * time.Second,
